@@ -1,0 +1,29 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "HapiJS Server for handling API requests made from my react portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cicada1105/portfolio-backend.git"
+  },
+  "keywords": [
+    "HapiJS",
+    "NodeJS",
+    "API",
+    "Server"
+  ],
+  "author": "Josh Colvin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cicada1105/portfolio-backend/issues"
+  },
+  "homepage": "https://github.com/Cicada1105/portfolio-backend#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.2"
+  }
+}
