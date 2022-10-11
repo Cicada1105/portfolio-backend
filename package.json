@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Cicada1105/portfolio-backend#readme",
   "dependencies": {
-    "@hapi/hapi": "^20.2.2"
+    "@hapi/hapi": "^20.2.2",
+    "dotenv": "^16.0.3"
   }
 }
