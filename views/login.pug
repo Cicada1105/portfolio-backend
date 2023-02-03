@@ -1,0 +1,12 @@
+extends layout/default.pug
+
+block page-content
+	h1 Login
+	form(method="POST" action='/cms/login')
+		div
+			label Username:
+			input(type="text" name="username")
+		div
+			label Password:
+			input(type="password" name="password")
+		input(type="submit")

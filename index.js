@@ -13,6 +13,18 @@ const init = async () => {
 		host: process.env.HOST
 	});
 
+	// Register the Vision plugin for handling templating
+	await server.register(require('@hapi/vision'));
+
+	// Set up view handling
+	server.views({
+		engines: {
+			pug: require('pug')
+		},
+		relativeTo: __dirname,
+		path: 'views'
+	});
+
 	// API plugin
 	await server.register({
 		plugin: API_PLUGIN,
