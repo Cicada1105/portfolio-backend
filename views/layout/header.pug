@@ -1,0 +1,24 @@
+header(class="site-header")
+	nav(class="flex-container site-navigation")
+		a(href="/cms")
+			img(src="/imgs/cube-logo.svg" alt="logo" width="60")
+		ul(class="text-center navigation-list flex-wrapper")
+			li
+				a(href="/cms/projects")
+					i(class="fa-solid fa-computer")
+					p(class="navigation-link__text") Projects
+			li
+				a(href="/cms/education")
+					i(class="fa-solid fa-graduation-cap")
+					p(class="navigation-link__text") Education
+			li
+				a(href="/cms/contact")
+					i(class="fa-solid fa-address-book") 
+					p(class="navigation-link__text") Contact
+		//- a(class="text-center navigation-logout__link" href="/cms/lgoout")
+		//- 	i(class="fa-solid fa-right-from-bracket")
+		//- 	p(class="navigation-link__text") Logout
+		form(action="/cms/logout" method="POST")
+			button(class="text-center navigation-logout__link")
+				i(class="fa-solid fa-right-from-bracket")
+				p(class="navigation-link__text") Logout

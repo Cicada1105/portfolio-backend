@@ -1,0 +1,85 @@
+/*
+	  Table of Contents
+	==========================
+	1. Global
+	2. Utility Classes
+	3. Header
+*/
+/**************/
+/*   Global   */
+/**************/
+:root {
+	--text-color: rgb(140,146,153);
+	--text-color-active: rgb(0,0,0);
+	--bg-color: rgb(240,243,246);
+	--secondary-bg-color: rgb(50, 60, 67);
+	--secondary-color: rgb(87, 129, 243);
+	--accent-color: rgb(87, 155, 220);
+}
+html, body {
+	background-color: var(--bg-color);
+	margin: 0rem;
+	font-size: 16px;
+	width: 100vw;
+	height: 100vh;
+	box-sizing: content-box;
+}
+ul {
+	list-style: none;
+	padding:0rem;
+}
+button {
+	background:none;
+	border: none;
+}
+button:hover {
+	color: white;
+	cursor: pointer;
+}
+button:active {
+	color: var(--accent-color);
+}
+a {
+	text-decoration: none;
+	color: var(--text-color);
+}
+a:hover {
+	color: white;
+}
+a:active {
+	color: var(--accent-color);
+}
+/***********************/
+/*   Utility Classes   */
+/***********************/
+.flex-wrapper {
+	display: flex;
+	align-items: center;
+}
+.flex-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-flow: row wrap;
+}
+.text-center {
+	text-align: center;
+}
+/**************/
+/*   Header   */
+/**************/
+.site-header {
+	background-color: var(--secondary-bg-color);
+	backdrop-filter:blur(15px);
+	padding: 0rem 2.5rem;
+}
+ul.navigation-list {
+	gap: 3rem;
+}
+.navigation-logout__link {
+	color: var(--text-color);
+}
+p.navigation-link__text {
+	margin: 0rem;
+	padding-top: 0.5rem;
+}

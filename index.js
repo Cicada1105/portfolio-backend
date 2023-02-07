@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require("@hapi/hapi");
+const Path = require('path');
 require("dotenv").config();
 
 // Retrieve plugins
@@ -10,11 +11,17 @@ const { CMS_PLUGIN } = require("./plugins/cms.js");
 const init = async () => {
 	const server = Hapi.server({
 		port: process.env.PORT || 3000,
-		host: process.env.HOST
+		host: process.env.HOST,
+		routes: {
+			files: {
+				relativeTo: Path.join(__dirname, 'public')
+			}
+		}
 	});
 
 	// Register the Vision plugin for handling templating
 	await server.register(require('@hapi/vision'));
+	await server.register(require('@hapi/inert'));
 
 	// Set up view handling
 	server.views({
@@ -24,6 +31,17 @@ const init = async () => {
 		relativeTo: __dirname,
 		path: 'views'
 	});
+
+	server.route({
+		method: 'GET',
+		path: '/imgs/{file*}',
+		handler: {
+			directory: {
+				path: 'imgs',
+				listing: true
+			}
+		}
+	})
 
 	// API plugin
 	await server.register({
