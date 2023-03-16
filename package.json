@@ -27,7 +27,9 @@
     "@hapi/hapi": "^20.2.2",
     "@hapi/inert": "^7.0.0",
     "@hapi/vision": "^7.0.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
+    "mongodb": "^5.0.1",
     "pug": "^3.0.2"
   }
 }

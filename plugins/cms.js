@@ -1,5 +1,7 @@
 'use strict';
 
+const { mongoClient } = require('../utils/mongodb.js');
+
 const CMS_PLUGIN = {
 	name: "cmsPlugin",
 	version: "1.0.0",
@@ -17,13 +19,23 @@ const CMS_PLUGIN = {
 			{
 				method: "GET",
 				path: "/",
-				handler: function(req,h) {
+				handler: async function(req,h) {
 					/*
 						Todo: 
 						if logged in: display home page
 						else redirect to login
 					*/
-					return h.view('index');
+					try {
+						let client = await mongoClient.connect();
+						let db = client.db('portfolio-cms');
+
+						let test = await db.collection('users').findOne({ name: "josh" });
+						
+						return h.view('index', { name: test['name'] });
+					} catch(err) {
+						console.log("Error occured");
+						console.log(err);
+					}
 				}
 			},
 			{
