@@ -2,6 +2,8 @@ extends layout/default.pug
 
 block page-content
 	h1(class="text-center") Login
+	if(err)
+		p.err #{err}
 	form(method="POST" action='/cms/login')
 		div
 			label Username:
