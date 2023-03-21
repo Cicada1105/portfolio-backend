@@ -1,5 +1,6 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
 const { mongoClient } = require('../utils/mongodb.js');
 
 const CMS_PLUGIN = {
@@ -52,22 +53,17 @@ const CMS_PLUGIN = {
 
 						// Query database for logged in user
 						if (user !== null) {
-							// Quety database for password associated with username 
-							// Compare to hashed version of user submitted password
-							if (user['password'] === "$2y$10$.yXDgQPi/RWxk5KmscWMxeQ4traQzmq6Q00NSjnIxY1VyQ74ZoER6") {
+							// Hash user submitted password with bcrypt
+							if (await bcrypt.compare(password,user['password'])) {
 								// Use JSON Webtokens to generate unique token
 								h.state('data', { _id: 2, user: user['username'] });
 								// // Redirect to home page 
 								return h.redirect('/cms');
-							}
+							};
+
 							return h.view('login', { err: "Invalid Credentials" });
 						}
-						/*
-							Todo:
-							Query database for username and password
-							if exists: generate token and redirect to home page
-							else: redirect back to login
-						*/
+						
 						return h.view('login', { err: "Invalid Credentials" });
 					} catch(err) {
 						console.log("Error occured");
