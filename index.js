@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require("@hapi/hapi");
+const Boom = require("@hapi/boom");
 const Path = require('path');
 require("dotenv").config();
 
@@ -40,17 +41,21 @@ const init = async () => {
 				// Retrieve user submitted values
 				const cookies = req.state.data;
 
-				if (cookies) {
-					let { _id, user } = cookies;
-					const { isValid } = options.validate(_id);
-
-					if (isValid)
-						return h.authenticated({ credentials: { user } });
-					else
-						return h.unauthenticated("Invalid Credentials");	
-				}
-				else {
-					return h.unauthenticated("Missing Credentials");
+				try {
+					if (cookies) {
+						let { _id, user } = cookies;
+						const { isValid } = options.validate(_id);
+	
+						if (isValid)
+							return h.authenticated({ credentials: { user } });
+						else
+							throw Boom.unauthorized("Invalid Token", "Custom");
+					}
+					else {
+						return Boom.unauthorized("Missing Credentials", "Custom");
+					}
+				} catch(err) {
+					console.log(err);
 				}
 			}
 		}
@@ -106,6 +111,21 @@ const init = async () => {
 		}
 	});
 	
+	// Overwrited default error handling to present user friendly authentication errors
+	server.ext('onPreResponse', function(req, h) {
+		const response = req.response;
+		// Check if a Boom object has been created for error handling
+		if (!response.isBoom)
+			return h.continue;
+
+		const errInfo = response.output;
+		const { statusCode, message } = errInfo.payload;
+
+		if (statusCode === 401)
+			return h.view('login', { err: message }).code(statusCode);
+		else // Handle other errors
+			return view('login').code(statusCode);
+	});
 
 	await server.start();
 	console.log('Server running on %s://%s:%d', server.info.protocol,server.info.host, server.info.port);
