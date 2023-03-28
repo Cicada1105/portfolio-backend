@@ -2,3 +2,17 @@ extends layout/default.pug
 
 block page-content
 	h1(class="text-center") Projects
+	table
+		thead
+			tr
+				th Title
+				th Description
+				th Github
+				th Website
+		tbody
+		each project in projects
+			tr
+				td= project.title
+				td= project.description
+				td= project.github_url
+				td= project.live_url

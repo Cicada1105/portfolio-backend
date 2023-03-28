@@ -70,7 +70,6 @@ const CMS_PLUGIN = {
 									return h.view('login', { err: "Server Error" });
 								}
 							};
-							console.log("Outside of check password");
 							return h.view('login', { err: "Invalid Credentials" });
 						}
 						
@@ -100,8 +99,18 @@ const CMS_PLUGIN = {
 				options: {
 					auth: 'customAuth'
 				},
-				handler: function(req,h) {
-					return h.view('projects');
+				handler: async function(req,h) {
+					try {
+						let client = await mongoClient.connect();
+						let db = client.db('portfolio-cms');
+
+						let projects = await db.collection('projects').find({}).toArray();
+
+						return h.view('projects', { projects });
+					} catch(err) {
+						console.log("Error occured");
+						console.log(err);
+					}
 				}
 			},
 			{
