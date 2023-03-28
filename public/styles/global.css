@@ -9,20 +9,33 @@
 /*   Global   */
 /**************/
 :root {
-	--text-color: rgb(140,146,153);
-	--text-color-active: rgb(0,0,0);
-	--bg-color: rgb(240,243,246);
-	--secondary-bg-color: rgb(50, 60, 67);
-	--secondary-color: rgb(87, 129, 243);
-	--accent-color: rgb(87, 155, 220);
+	--snow-drif: rgb(237,243,238);
+	--gray: rgb(140,146,153);
+	--outer-space: rgb(50, 60, 67);
+	--charcoal: rgb(60,84,106);
+	--lapis-lazuli: rgb(69,108,144);
+	--blue-gray: rgb(87, 155, 220);
+	--turqoise: rgb(63,205,225);
+	--cyan: rgb(38,255,230);
+	--text-color: rgb(116,116,116);
+
+	--raisin-black: rgb(40,41,45);
+	--carbon-fiber: rgb(45,45,45);
+/*
+	--color-start: rgb(11,29,81);
+	--color-end: rgb(69, 108, 144);
+	--test: rgb(17,29,74);*/
 }
 html, body {
-	background-color: var(--bg-color);
+	background-color: var(--snow-drif);
 	margin: 0rem;
 	font-size: 16px;
 	width: 100vw;
 	height: 100vh;
 	box-sizing: content-box;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat', sans-serif;
 }
 ul {
 	list-style: none;
@@ -44,7 +57,7 @@ a {
 	color: var(--text-color);
 }
 a:hover {
-	color: white;
+	color: var(--snow-drif);
 }
 a:active {
 	color: var(--accent-color);
@@ -65,11 +78,14 @@ a:active {
 .text-center {
 	text-align: center;
 }
+.m-auto {
+	margin: auto;
+}
 /**************/
 /*   Header   */
 /**************/
 .site-header {
-	background-color: var(--secondary-bg-color);
+	background-color: var(--carbon-fiber);
 	backdrop-filter:blur(15px);
 	padding: 0rem 2.5rem;
 }

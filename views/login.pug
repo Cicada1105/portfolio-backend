@@ -1,14 +1,28 @@
-extends layout/default.pug
+doctype html
+html(lang="en")
+	head
+		title Portfolio CMS
 
-block page-content
-	h1(class="text-center") Login
-	if(err)
-		p.err #{err}
-	form(method="POST" action='/cms/login')
-		div
-			label Username:
-			input(type="text" name="username")
-		div
-			label Password:
-			input(type="password" name="password")
-		input(type="submit")
+		//- Font awesome script for icons
+		script(src="https://kit.fontawesome.com/de38352bbc.js" crossorigin="anonymous")
+		//- Links for google fonts
+		link(rel="preconnect" href="https://fonts.googleapis.com")
+		link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+		link(href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Montserrat:wght@300&display=swap" rel="stylesheet")
+		//- Local Stylesheets
+		link(rel="stylesheet" href="/cms/global.css")
+		link(rel="stylesheet" href="/cms/login.css")
+	body
+		main
+			form(method="POST" action='/cms/login' class="m-auto")
+				div.bg
+				h1.text-center.login__title Login
+				if(err)
+					p.text-center.err Invalid Credentials
+				div.input-cont
+					input(type="text" name="username" placeholder="Username")
+					span.animation-border
+				div.input-cont
+					input(type="password" name="password" placeholder="Password")
+					span.animation-border
+				input(type="submit" value="Login")
