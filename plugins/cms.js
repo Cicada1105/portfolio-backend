@@ -1,7 +1,10 @@
 'use strict';
 
+// Global
 const bcrypt = require('bcrypt');
+// Local 
 const { mongoClient } = require('../utils/mongodb.js');
+const { sign } = require('../utils/tokens.js');
 
 const CMS_PLUGIN = {
 	name: "cmsPlugin",
@@ -55,12 +58,19 @@ const CMS_PLUGIN = {
 						if (user !== null) {
 							// Hash user submitted password with bcrypt
 							if (await bcrypt.compare(password,user['password'])) {
-								// Use JSON Webtokens to generate unique token
-								h.state('data', { _id: 2, user: user['username'] });
-								// // Redirect to home page 
-								return h.redirect('/cms');
+								// Generate token for user
+								try {
+									let token = sign({ user: user['username'] });
+									// Store user token in cookies
+									h.state('data', { token });
+									// // Redirect to home page 
+									return h.redirect('/cms');
+								} catch (e) {
+									console.log(e);
+									return h.view('login', { err: "Server Error" });
+								}
 							};
-
+							console.log("Outside of check password");
 							return h.view('login', { err: "Invalid Credentials" });
 						}
 						

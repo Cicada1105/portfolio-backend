@@ -5,6 +5,10 @@ logs
 # Dependency directories
 node_modules/
 
+# Confidential
+private.key
+public.pem
+
 # TypeScript v1 declaration files
 # typings/
 

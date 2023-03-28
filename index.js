@@ -1,8 +1,14 @@
 'use strict';
 
+// Built in
+const fs = require('fs');
+const path = require('path');
+// Global
 const Hapi = require("@hapi/hapi");
 const Boom = require("@hapi/boom");
-const Path = require('path');
+// Local
+const { verify } = require('./utils/tokens.js');
+
 require("dotenv").config();
 
 // Retrieve plugins
@@ -15,7 +21,7 @@ const init = async () => {
 		host: process.env.HOST,
 		routes: {
 			files: {
-				relativeTo: Path.join(__dirname, 'public')
+				relativeTo: path.join(__dirname, 'public')
 			}
 		}
 	});
@@ -41,40 +47,24 @@ const init = async () => {
 				// Retrieve user submitted values
 				const cookies = req.state.data;
 
-				try {
-					if (cookies) {
-						let { _id, user } = cookies;
-						const { isValid } = options.validate(_id);
-	
-						if (isValid)
-							return h.authenticated({ credentials: { user } });
-						else
-							throw Boom.unauthorized("Invalid Token", "Custom");
-					}
-					else {
-						return Boom.unauthorized("Missing Credentials", "Custom");
-					}
-				} catch(err) {
-					console.log(err);
+				if (cookies) {
+					let { token } = cookies;
+					let { isValid, user } = options.validate(token)
+
+					if (isValid)
+						return h.authenticated({ credentials: { user } });
+					else
+						throw Boom.unauthorized("Invalid Token", "Custom");
+				}
+				else {
+					return Boom.unauthorized("Missing Credentials", "Custom");
 				}
 			}
 		}
 	});
 
-	const validate = (id) => {
-		/*
-			Todo: 
-			Use JSON Webtoken to verify if token associated with user is valid
-		*/
-		if (id === 2) {
-			return { isValid: true }
-		}
-		else {
-			return { isValid: false }
-		}
-	}
 	// Create a strategy that implements the authentication
-	server.auth.strategy("customAuth", "custom", { validate });
+	server.auth.strategy("customAuth", "custom", { validate: verify });
 
 	// Set up view handling
 	server.views({
