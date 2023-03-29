@@ -4,6 +4,7 @@
 	1. Global
 	2. Utility Classes
 	3. Header
+	4. Body
 */
 /**************/
 /*   Global   */
@@ -33,6 +34,9 @@ html, body {
 	width: 100vw;
 	height: 100vh;
 	box-sizing: content-box;
+}
+main {
+	padding: 0rem 1rem;
 }
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Montserrat', sans-serif;
@@ -98,4 +102,27 @@ ul.navigation-list {
 p.navigation-link__text {
 	margin: 0rem;
 	padding-top: 0.5rem;
+}
+/************/
+/*   Body   */
+/************/
+table, th, td {
+	border-collapse: collapse;
+}
+tbody > tr:nth-child(odd) {
+	background-color: white;
+}
+tbody > tr:hover {
+	background-color: var(--turqoise);
+}
+th, td {
+	padding: 1rem 1.5rem;
+}
+th {
+	background-color: var(--lapis-lazuli);
+	border-bottom: 2px solid var(--charcoal);
+	color: white;
+}
+td {
+	border-bottom: 2px solid var(--lapis-lazuli);
 }
