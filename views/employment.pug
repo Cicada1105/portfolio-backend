@@ -1,0 +1,24 @@
+extends layout/default.pug
+
+block page-content
+	h1.text-center Employment
+	table
+		thead
+			tr
+				th Job Title
+				th Employer
+				th Description
+				th Start Month
+				th Start Year
+				th End Month
+				th End Year
+		tbody
+			each job in employment
+				tr
+					td= job.title
+					td= job.employer
+					td= job.description
+					td= job.start_month
+					td= job.start_year
+					td= job.end_month
+					td= job.end_year
