@@ -2,3 +2,23 @@ extends layout/default.pug
 
 block page-content
 	h1(class="text-center") Education
+	table
+		thead
+			tr
+				th University
+				th Degree Type
+				th Degree
+				th Start Month
+				th Start Year
+				th End Month
+				th End Year
+		tbody
+			each institution in education
+				tr
+					td= institution.name
+					td= institution.degree_type
+					td= institution.degree
+					td= institution.start_month
+					td= institution.start_year
+					td= institution.end_month
+					td= institution.end_year
