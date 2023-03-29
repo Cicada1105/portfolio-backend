@@ -167,8 +167,22 @@ const CMS_PLUGIN = {
 				options: {
 					auth: 'customAuth'
 				},
-				handler: function(req,h) {
-					return h.view('contact');
+				handler: async function(req,h) {
+					try {
+						let client = await mongoClient.connect();
+						let db = client.db('portfolio-cms');
+
+						let contactMethods = await db.collection('contact').find({}).toArray();
+
+						return h.view('contact', { contactMethods });
+					} catch(err) {
+						let { user } = req.auth.credentials
+
+						console.log("Error occured");
+						console.log(err);
+
+						return h.view('index', { name: user });
+					}
 				}
 			}
 		])
