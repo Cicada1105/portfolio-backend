@@ -100,6 +100,18 @@ const init = async () => {
 			prefix: "/cms"
 		}
 	});
+	// Fallback for all other routes
+	server.route({
+		method: "*",
+		path: "/{any*}",
+		handler: function(req, h) {
+			// If the user is logged in, redirect to home page
+			if (h.authenticated) 
+				return h.redirect('/cms');
+			else
+				return h.redirect('/cms/login');
+		}
+	})
 	
 	// Overwrited default error handling to present user friendly authentication errors
 	server.ext('onPreResponse', function(req, h) {
