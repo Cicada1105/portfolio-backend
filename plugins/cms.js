@@ -6,6 +6,12 @@ const bcrypt = require('bcrypt');
 const { mongoClient } = require('../utils/mongodb.js');
 const { sign } = require('../utils/tokens.js');
 
+// Routes
+const { 
+	ProjectsRoutes, EducationRoutes,
+	EmploymentRoutes, ContactRoutes 
+} = require('./routes');
+
 const CMS_PLUGIN = {
 	name: "cmsPlugin",
 	version: "1.0.0",
@@ -93,98 +99,10 @@ const CMS_PLUGIN = {
 					return h.redirect('/cms/login');
 				}
 			},
-			{
-				method: "GET",
-				path: "/projects",
-				options: {
-					auth: 'customAuth'
-				},
-				handler: async function(req,h) {
-					try {
-						let client = await mongoClient.connect();
-						let db = client.db('portfolio-cms');
-
-						let projects = await db.collection('projects').find({}).toArray();
-
-						return h.view('projects', { projects });
-					} catch(err) {
-						console.log("Error occured");
-						console.log(err);
-					}
-				}
-			},
-			{
-				method: "GET",
-				path: "/education",
-				options: {
-					auth: 'customAuth'
-				},
-				handler: async function(req,h) {
-					try {
-						let client = await mongoClient.connect();
-						let db = client.db('portfolio-cms');
-
-						let education = await db.collection('education').find({}).toArray();
-
-						return h.view('education', { education });
-					} catch(err) {
-						let { user } = req.auth.credentials
-
-						console.log("Error occured");
-						console.log(err);
-
-						return h.view('index', { name: user });
-					}
-				}
-			},
-			{
-				method: "GET",
-				path: "/employment",
-				options: {
-					auth: 'customAuth'
-				},
-				handler: async function(req,h) {
-					try {
-						let client = await mongoClient.connect();
-						let db = client.db('portfolio-cms');
-
-						let employment = await db.collection('employment').find({}).toArray();
-
-						return h.view('employment', { employment });
-					} catch(err) {
-						let { user } = req.auth.credentials
-
-						console.log("Error occured");
-						console.log(err);
-
-						return h.view('index', { name: user });
-					}
-				}
-			},
-			{
-				method: "GET",
-				path: "/contact",
-				options: {
-					auth: 'customAuth'
-				},
-				handler: async function(req,h) {
-					try {
-						let client = await mongoClient.connect();
-						let db = client.db('portfolio-cms');
-
-						let contactMethods = await db.collection('contact').find({}).toArray();
-
-						return h.view('contact', { contactMethods });
-					} catch(err) {
-						let { user } = req.auth.credentials
-
-						console.log("Error occured");
-						console.log(err);
-
-						return h.view('index', { name: user });
-					}
-				}
-			}
+			...ProjectsRoutes,
+			...EducationRoutes,
+			...EmploymentRoutes,
+			...ContactRoutes
 		])
 	}
 }
