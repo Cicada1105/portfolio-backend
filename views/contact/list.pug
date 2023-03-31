@@ -10,6 +10,7 @@ block page-content
 				th Name
 				th Link
 				th Icon
+				th
 		tbody
 			each method in contactMethods
 				tr
@@ -17,3 +18,9 @@ block page-content
 					td= method.name
 					td= method.link
 					td= method['platform'].icon
+					td
+						a(href=`/cms/contact/edit/${method['_id']}`)
+							i.fa-regular.fa-pen-to-square
+						form(action=`/cms/contact/delete/${method['_id']}` method="POST")
+							button
+								i.fa-regular.fa-trash-can

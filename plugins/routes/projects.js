@@ -23,6 +23,30 @@ const routes = [
 				console.log(err);
 			}
 		}
+	},
+	{
+		method: "GET",
+		path: '/projects/edit/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			
+			return h.view('projects/edit', { id });
+		}
+	},
+	{
+		method: "POST",
+		path: '/projects/delete/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			console.log(`Deleting project with id of ${id}`);
+			return h.redirect('/cms/projects');
+		}
 	}
 ];
 

@@ -12,6 +12,7 @@ block page-content
 				th Start Year
 				th End Month
 				th End Year
+				th
 		tbody
 			each institution in education
 				tr
@@ -22,3 +23,9 @@ block page-content
 					td= institution.start_year
 					td= institution.end_month
 					td= institution.end_year
+					td
+						a(href=`/cms/education/edit/${institution['_id']}`)
+							i.fa-regular.fa-pen-to-square
+						form(action=`/cms/education/delete/${institution['_id']}` method="POST")
+							button
+								i.fa-regular.fa-trash-can

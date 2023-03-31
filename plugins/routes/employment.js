@@ -27,6 +27,30 @@ const routes = [
 				return h.view('index', { name: user });
 			}
 		}
+	},
+	{
+		method: "GET",
+		path: '/employment/edit/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			
+			return h.view('employment/edit', { id });
+		}
+	},
+	{
+		method: "POST",
+		path: '/employment/delete/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			console.log(`Deleting employment with id of ${id}`);
+			return h.redirect('/cms/employment');
+		}
 	}
 ];
 

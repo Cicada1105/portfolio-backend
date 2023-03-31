@@ -9,10 +9,17 @@ block page-content
 				th Description
 				th Github
 				th Website
+				th
 		tbody
-		each project in projects
-			tr
-				td= project.title
-				td= project.description
-				td= project.github_url
-				td= project.live_url
+			each project in projects
+				tr
+					td= project.title
+					td= project.description
+					td= project.github_url
+					td= project.live_url
+					td
+						a(href=`/cms/projects/edit/${project['_id']}`)
+							i.fa-regular.fa-pen-to-square
+						form(action=`/cms/projects/delete/${project['_id']}` method="POST")
+							button
+								i.fa-regular.fa-trash-can

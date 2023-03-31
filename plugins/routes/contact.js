@@ -27,6 +27,30 @@ const routes = [
 				return h.view('index', { name: user });
 			}
 		}
+	},
+	{
+		method: "GET",
+		path: '/contact/edit/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			
+			return h.view('contact/edit', { id });
+		}
+	},
+	{
+		method: "POST",
+		path: '/contact/delete/{id}',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			let { id } = req.params;
+			console.log(`Deleting contact with id of ${id}`);
+			return h.redirect('/cms/contact');
+		}
 	}
 ];
 

@@ -12,6 +12,7 @@ block page-content
 				th Start Year
 				th End Month
 				th End Year
+				th
 		tbody
 			each job in employment
 				tr
@@ -22,3 +23,9 @@ block page-content
 					td= job.start_year
 					td= job.end_month
 					td= job.end_year
+					td
+						a(href=`/cms/employment/edit/${job['_id']}`)
+							i.fa-regular.fa-pen-to-square
+						form(action=`/cms/employment/delete/${job['_id']}` method="POST")
+							button
+								i.fa-regular.fa-trash-can
