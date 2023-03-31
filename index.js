@@ -75,16 +75,38 @@ const init = async () => {
 		path: 'views'
 	});
 
-	server.route({
-		method: 'GET',
-		path: '/imgs/{file*}',
-		handler: {
-			directory: {
-				path: 'imgs',
-				listing: true
+	server.route([
+		{
+			method: 'GET',
+			path: '/imgs/{file*}',
+			handler: {
+				directory: {
+					path: 'imgs',
+					listing: true
+				}
+			}
+		},
+		{
+			method: 'GET',
+			path: '/scripts/{file*}',
+			handler: {
+				directory: {
+					path: 'scripts',
+					listing: true
+				}
+			}
+		},
+		{
+			method: 'GET',
+			path: '/styles/{file*}',
+			handler: {
+				directory: {
+					path: 'styles',
+					listing: true
+				}
 			}
 		}
-	})
+	])
 
 	// API plugin
 	await server.register({

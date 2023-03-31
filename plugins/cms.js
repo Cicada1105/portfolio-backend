@@ -19,15 +19,6 @@ const CMS_PLUGIN = {
 		server.route([
 			{
 				method: "GET",
-				path: '/{stylesheet}.css',
-				handler: function(req,h) {
-					const { stylesheet } = req.params;
-					
-					return h.file(`styles/${stylesheet}.css`);
-				}
-			},
-			{
-				method: "GET",
 				path: "/",
 				options: {
 					auth: "customAuth"
