@@ -2,6 +2,7 @@ extends ../layout/default.pug
 
 block page-content
 	h1(class="text-center") Projects
+	a(class="btn",href="/cms/projects/add") Add
 	table.text-center.m-auto
 		thead
 			tr
@@ -17,9 +18,12 @@ block page-content
 					td= project.description
 					td= project.github_url
 					td= project.live_url
-					td
-						a(href=`/cms/projects/edit/${project['_id']}`)
-							i.fa-regular.fa-pen-to-square
-						form(action=`/cms/projects/delete/${project['_id']}` method="POST")
-							button
-								i.fa-regular.fa-trash-can
+					td.controls
+						table
+							tr
+								td
+									a(href=`/cms/projects/edit/${project['_id']}`)
+										i.fa-regular.fa-pen-to-square
+									form(action=`/cms/projects/delete/${project['_id']}` method="POST")
+										button
+											i.fa-regular.fa-trash-can

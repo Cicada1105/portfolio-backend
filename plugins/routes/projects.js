@@ -25,6 +25,16 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/projects/add',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			return h.view('projects/add');
+		}
+	},
+	{
 		method: "GET",
 		path: '/projects/edit/{id}',
 		options: {

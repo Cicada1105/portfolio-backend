@@ -29,6 +29,27 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/contact/add',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			return h.view('contact/add');
+		}
+	},
+	{
+		method: 'POST',
+		path: '/contact/create',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req, h) {
+			console.log(req.payload);
+			return h.redirect('/cms/contact');
+		}
+	},
+	{
 		method: "GET",
 		path: '/contact/edit/{id}',
 		options: {

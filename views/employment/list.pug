@@ -2,6 +2,7 @@ extends ../layout/default.pug
 
 block page-content
 	h1.text-center Employment
+	a(class="btn",href="/cms/employment/add") Add
 	table.text-center.m-auto
 		thead
 			tr
@@ -23,9 +24,12 @@ block page-content
 					td= job.start_year
 					td= job.end_month
 					td= job.end_year
-					td
-						a(href=`/cms/employment/edit/${job['_id']}`)
-							i.fa-regular.fa-pen-to-square
-						form(action=`/cms/employment/delete/${job['_id']}` method="POST")
-							button
-								i.fa-regular.fa-trash-can
+					td.controls
+						table
+							tr
+								td
+									a(href=`/cms/employment/edit/${job['_id']}`)
+										i.fa-regular.fa-pen-to-square
+									form(action=`/cms/employment/delete/${job['_id']}` method="POST")
+										button
+											i.fa-regular.fa-trash-can

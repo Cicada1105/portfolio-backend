@@ -2,6 +2,7 @@ extends ../layout/default.pug
 
 block page-content
 	h1(class="text-center") Education
+	a(class="btn",href="/cms/education/add") Add
 	table.text-center.m-auto
 		thead
 			tr
@@ -23,9 +24,12 @@ block page-content
 					td= institution.start_year
 					td= institution.end_month
 					td= institution.end_year
-					td
-						a(href=`/cms/education/edit/${institution['_id']}`)
-							i.fa-regular.fa-pen-to-square
-						form(action=`/cms/education/delete/${institution['_id']}` method="POST")
-							button
-								i.fa-regular.fa-trash-can
+					td.controls
+						table
+							tr
+								td
+									a(href=`/cms/education/edit/${institution['_id']}`)
+										i.fa-regular.fa-pen-to-square
+									form(action=`/cms/education/delete/${institution['_id']}` method="POST")
+										button
+											i.fa-regular.fa-trash-can

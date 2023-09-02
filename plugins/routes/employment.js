@@ -29,6 +29,16 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/employment/add',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			return h.view('employment/add');
+		}
+	},
+	{
 		method: "GET",
 		path: '/employment/edit/{id}',
 		options: {

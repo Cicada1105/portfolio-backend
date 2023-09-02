@@ -29,6 +29,16 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/education/add',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: function(req,h) {
+			return h.view('education/add');
+		}
+	},
+	{
 		method: "GET",
 		path: '/education/edit/{id}',
 		options: {

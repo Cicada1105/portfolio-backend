@@ -3,6 +3,7 @@ extends ../layout/default.pug
 block page-content
 	script(src='/scripts/test.js')
 	h1(class="text-center") Contact
+	a(class="btn",href="/cms/contact/add") Add
 	table.text-center.m-auto
 		thead
 			tr
@@ -18,9 +19,12 @@ block page-content
 					td= method.name
 					td= method.link
 					td= method['platform'].icon
-					td
-						a(href=`/cms/contact/edit/${method['_id']}`)
-							i.fa-regular.fa-pen-to-square
-						form(action=`/cms/contact/delete/${method['_id']}` method="POST")
-							button
-								i.fa-regular.fa-trash-can
+					td.controls
+						table
+							tr
+								td
+									a(href=`/cms/contact/edit/${method['_id']}`)
+										i.fa-regular.fa-pen-to-square
+									form(action=`/cms/contact/delete/${method['_id']}` method="POST")
+										button
+											i.fa-regular.fa-trash-can

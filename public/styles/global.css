@@ -5,6 +5,7 @@
 	2. Utility Classes
 	3. Header
 	4. Body
+	5. Media Queries
 */
 /**************/
 /*   Global   */
@@ -85,6 +86,89 @@ a:active {
 .m-auto {
 	margin: auto;
 }
+.btn {
+	background-color: var(--cyan);
+	box-shadow: 2px 2px 2px var(--charcoal);
+	outline:none;
+	padding:0.5rem 1.5rem;
+	font-weight:bold;
+	border:none;
+	border-radius:5px;
+	color:black;
+	margin: 0rem auto 2rem auto;
+	display: block;
+	width: fit-content;
+}
+.btn:hover {
+	background-color: var(--turqoise);
+	box-shadow: 2px 2px 6px var(--charcoal);
+	cursor:pointer;
+}
+.btn:focus {
+	background-color: var(--turqoise);
+}
+.form-control {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom:2rem;
+	gap:0.5rem;
+}
+.control-wrapper {
+	position: relative;
+}
+.control__input {
+	background-color:transparent;
+	border:none;
+	border-bottom: 2px solid var(--raisin-black);
+	position: relative;
+	transition: 0.25s all;
+	padding:0.5rem 0.75rem;
+	outline:none;
+	width:10rem;
+	z-index: 2;
+}
+.control__text {
+	color:var(--raisin-black);
+	transition: 0.25s color, 0.25s font-size, 0.25s left, 0.25s top;
+	font-size:0.9rem;
+	position: absolute;
+	left:0.75rem;
+	top:24%;
+	z-index: 1;
+}
+.control__input:focus {
+	border-bottom:2px solid var(--turqoise);
+}
+.control__input::placeholder {
+	color:var(--gray);
+	font-size:0.75rem;
+}
+.control__input:focus::placeholder {
+	color:pink;
+}
+.control__input:focus + .control__text {
+	color:var(--gray);
+	font-size:0.75rem;
+	left:0.25rem;
+	top:-20%;
+}
+input.control__input[type='file'] {
+	border:none;
+}
+input.control__input[type='file']::file-selector-button {
+	display: block;
+	margin: auto;
+}
+:is(input.control__input[type='file']) {
+	width:5.3rem;
+}
+form.user-input-form {
+	width:80%;
+	max-width:45rem;
+	margin:auto;
+}
 /**************/
 /*   Header   */
 /**************/
@@ -125,4 +209,35 @@ th {
 }
 td {
 	border-bottom: 2px solid var(--lapis-lazuli);
+}
+td.controls tr {
+	background-color: transparent;
+}
+td.controls td {
+	display: flex;
+	column-gap: 0.5rem;
+	padding: 0rem;
+	border:none;
+}
+td.controls button {
+	font-size: 0.9rem;
+	padding: 0rem;
+}
+td.controls a {
+	color: black;
+}
+td.controls a:hover {
+	color: white;
+}
+/**********************/
+/*   Media Queries   */
+/*********************/
+@media only screen and (min-width: 600px) {
+	.form-control {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	label.control__label {
+		margin-left: 5rem;
+	}
 }
