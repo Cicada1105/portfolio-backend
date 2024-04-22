@@ -7,11 +7,11 @@ block page-content
 	table.text-center.m-auto
 		thead
 			tr
-				th Platform
-				th Name
-				th Link
-				th Icon
-				th
+				th.w-5 Platform
+				th.w-5 Name
+				th.w-5 Link
+				th.w-5 Icon
+				th.w-5
 		tbody
 			each method in contactMethods
 				tr
@@ -20,7 +20,7 @@ block page-content
 					td= method.link
 					td= method['platform'].icon
 					td.controls
-						table
+						table.m-auto
 							tr
 								td
 									a(href=`/cms/contact/edit/${method['_id']}`)

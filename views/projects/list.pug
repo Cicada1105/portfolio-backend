@@ -6,10 +6,10 @@ block page-content
 	table.text-center.m-auto
 		thead
 			tr
-				th Title
-				th Description
-				th Github
-				th Website
+				th.w-5 Title
+				th.w-5 Description
+				th.w-5 Github
+				th.w-5 Website
 				th
 		tbody
 			each project in projects
@@ -19,11 +19,12 @@ block page-content
 					td= project.github_url
 					td= project.live_url
 					td.controls
-						table
-							tr
-								td
-									a(href=`/cms/projects/edit/${project['_id']}`)
-										i.fa-regular.fa-pen-to-square
-									form(action=`/cms/projects/delete/${project['_id']}` method="POST")
-										button
-											i.fa-regular.fa-trash-can
+						table.m-auto
+							tbody
+								tr
+									td
+										a(href=`/cms/projects/edit/${project['_id']}`)
+											i.fa-regular.fa-pen-to-square
+										form(action=`/cms/projects/delete/${project['_id']}` method="POST")
+											button
+												i.fa-regular.fa-trash-can

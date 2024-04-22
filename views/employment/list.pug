@@ -6,14 +6,14 @@ block page-content
 	table.text-center.m-auto
 		thead
 			tr
-				th Job Title
-				th Employer
-				th Description
-				th Start Month
-				th Start Year
-				th End Month
-				th End Year
-				th
+				th.w-8 Job Title
+				th.w-8 Employer
+				th.w-8 Description
+				th.w-8 Start Month
+				th.w-8 Start Year
+				th.w-8 End Month
+				th.w-8 End Year
+				th.w-8
 		tbody
 			each job in employment
 				tr
@@ -25,7 +25,7 @@ block page-content
 					td= job.end_month
 					td= job.end_year
 					td.controls
-						table
+						table.m-auto
 							tr
 								td
 									a(href=`/cms/employment/edit/${job['_id']}`)

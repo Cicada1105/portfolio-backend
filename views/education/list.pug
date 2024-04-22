@@ -6,14 +6,14 @@ block page-content
 	table.text-center.m-auto
 		thead
 			tr
-				th University
-				th Degree Type
-				th Degree
-				th Start Month
-				th Start Year
-				th End Month
-				th End Year
-				th
+				th.w-8 University
+				th.w-8 Degree Type
+				th.w-8 Degree
+				th.w-8 Start Month
+				th.w-8 Start Year
+				th.w-8 End Month
+				th.w-8 End Year
+				th.w-8
 		tbody
 			each institution in education
 				tr
@@ -25,7 +25,7 @@ block page-content
 					td= institution.end_month
 					td= institution.end_year
 					td.controls
-						table
+						table.m-auto
 							tr
 								td
 									a(href=`/cms/education/edit/${institution['_id']}`)
