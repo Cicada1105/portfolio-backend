@@ -32,7 +32,7 @@ const init = async () => {
 
 	// Configure server cookies
 	server.state('data', {
-		ttl:null, 					// Cookie lifetime; null === cookie deletes when browser is closed
+		ttl:1000 * 60 * 60 * 24, 			// Cookie lifetime; 1000 * 60 * 60 * 24 === 1 day
 		isSecure: true,
 		isHttpOnly: true,
 		encoding: 'base64json',
@@ -148,7 +148,7 @@ const init = async () => {
 		if (statusCode === 401)
 			return h.view('login', { err: message }).code(statusCode);
 		else // Handle other errors
-			return view('login').code(statusCode);
+			return h.view('login').code(statusCode);
 	});
 
 	await server.start();

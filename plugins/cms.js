@@ -47,7 +47,7 @@ const CMS_PLUGIN = {
 
 					try {
 						let client = await mongoClient.connect();
-						let db = client.db('portfolio-cms');
+						let db = client.db('portfolio_cms');
 
 						let user = await db.collection('users').findOne({ username });
 
@@ -74,6 +74,7 @@ const CMS_PLUGIN = {
 					} catch(err) {
 						console.log("Error occured");
 						console.log(err);
+						return h.view('login', { err: "Error occured" });
 					}
 				}
 			},

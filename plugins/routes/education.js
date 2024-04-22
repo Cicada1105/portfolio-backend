@@ -13,7 +13,7 @@ const routes = [
 		handler: async function(req,h) {
 			try {
 				let client = await mongoClient.connect();
-				let db = client.db('portfolio-cms');
+				let db = client.db('portfolio_cms');
 
 				let education = await db.collection('education').find({}).toArray();
 

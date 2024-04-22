@@ -8,7 +8,10 @@ const jwt = require('jsonwebtoken');
 function sign(payload) {
 	let privateKey = fs.readFileSync('./private.key');
 	// // Create the token with the private key and credentials
-	let token = jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+	let token = jwt.sign(payload, privateKey, { 
+		algorithm: 'RS256',
+		expiresIn: '1 day'
+	});
 
 	return token;
 }
