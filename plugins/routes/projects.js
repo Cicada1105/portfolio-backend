@@ -11,7 +11,7 @@ const routes = [
 			auth: 'customAuth'
 		},
 		handler: async function(req,h) {
-			let message = req.query['msg'];
+			let success = req.query['success'];
 			let error = req.query['err'];
 
 			try {
@@ -20,7 +20,7 @@ const routes = [
 
 				let projects = await db.collection('projects').find({}).toArray();
 				
-				return h.view('projects/list', { projects, message, error });
+				return h.view('projects/list', { projects, success, error });
 			} catch(err) {
 				console.log("Error occured");
 				console.log(err);

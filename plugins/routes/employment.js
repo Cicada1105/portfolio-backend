@@ -11,13 +11,16 @@ const routes = [
 			auth: 'customAuth'
 		},
 		handler: async function(req,h) {
+			let success = req.query['success'];
+			let error = req.query['err'];
+
 			try {
 				let client = await mongoClient.connect();
 				let db = client.db('portfolio_cms');
 
 				let employment = await db.collection('employment').find({}).toArray();
 
-				return h.view('employment/list', { employment });
+				return h.view('employment/list', { employment, success, error });
 			} catch(err) {
 				let { user } = req.auth.credentials
 

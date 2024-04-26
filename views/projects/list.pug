@@ -3,18 +3,8 @@ extends ../layout/default.pug
 block page-content
 	h1(class="text-center") Projects
 	a(class="btn",href="/cms/projects/add") Add
-	if ( error )
-		strong
-			p(class='error text-center')= error
-		script.
-			let errorEl = document.getElementsByClassName('error')[0];
-			setTimeout(() => errorEl.remove(), 5000);
-	if ( message )
-		strong
-			p(class='success text-center')= message
-			script.
-				let messageEl = document.getElementsByClassName('success')[0];
-				setTimeout(() => messageEl.remove(), 5000);
+	include ../includes/error.pug
+	include ../includes/success.pug
 	table.text-center.m-auto
 		thead
 			tr

@@ -1,0 +1,7 @@
+if ( error )
+  strong
+    p(class = 'error text-center' )= error
+  script.
+    let errEl = document.getElementsByClassName('error')[0];
+    let errCont = errEl.parentElement;
+    setTimeout(() => errCont.remove(), 5000);

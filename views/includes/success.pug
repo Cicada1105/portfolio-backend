@@ -1,0 +1,7 @@
+if ( success )
+  strong
+    p(class = 'success text-center')= success
+  script.
+    let successEl = document.getElementsByClassName('success')[0];
+    let successCont = successEl.parentElement;
+    setTimeout(() => successCont.remove(), 5000);

@@ -3,6 +3,8 @@ extends ../layout/default.pug
 block page-content
 	h1(class="text-center") Education
 	a(class="btn",href="/cms/education/add") Add
+	include ../includes/error.pug
+	include ../includes/success.pug
 	table.text-center.m-auto
 		thead
 			tr
