@@ -110,6 +110,12 @@ a:active {
 .w-8 {
 	width: 12.5%;
 }
+.error {
+	color: red;
+}
+.success {
+	color: green;
+}
 .btn {
 	background-color: var(--cyan);
 	box-shadow: 2px 2px 2px var(--charcoal);

@@ -1,4 +1,21 @@
-extends ../layout/default.pug
+include ../layout/default.pug
 
 block page-content
 	h1.text-center Add Project
+	form(class="user-input-form",action="/cms/projects/create",method="POST")
+		div(class="form-control")
+			label(class="control__label",for="title") Title
+			div(class="control-wrapper")
+				input(id="title",class="control__input",type="text",name="title",placeholder="Name of project" required)
+		div(class="form-control")
+			label(class="control__label",for="description") Description
+			div(class="control-wrapper")
+				input(id="description",class="control__input",type="text",name="description",placeholder="Description..." required)
+		div(class="form-control")
+			label(class="control__label",for="github-url") Github URL
+			div(class="control-wrapper")
+				input(id="github-url",class="control__input",type="url",name="github_url",placeholder="https://www..." required)
+		div(class="form-control")
+			label(class="control__label",for="live-url") Live URL
+			input(id="live-url",class="control__input",type="url",name="live_url",placeholder="https://www...")
+		input(class="btn",type="submit")
