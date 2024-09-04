@@ -1,4 +1,43 @@
 extends ../layout/default.pug
 
 block page-content
+	script(src='/scripts/current-employment-toggle.js' defer)
 	h1.text-center Add Employment
+	form(class="user-input-form",action="/cms/employment/create",method="POST")
+		div(class="form-control")
+			label(class="control__label",for="title") Title
+			div(class="control-wrapper")
+				input(id="title",class="control__input",type="text",name="title",placeholder="Job title..." required)
+		div(class="form-control")
+			label(class="control__label",for="employer") Employer
+			div(class="control-wrapper")
+				input(id="employer",class="control__input",type="text",name="employer",placeholder="Employer..." required)
+		div(class="form-control")
+			label(class="control__label",for="description") Description
+			div(class="control-wrapper")
+				input(id="description",class="control__input",type="text",name="description",placeholder="Description..." required)
+		div(class="form-control")
+			label(class="control__label",for="start-month") Start Month
+			div(class="control-wrapper")
+				select(id="start-month",class="control__input",name="start_month")
+					each month in ['January','February','March','April','May','June','July','August','September','October','November','December']
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="start-year") Start Year
+			div(class="control-wrapper")
+				input(id="start-year",class="control__input",type="number",max=(new Date().getFullYear()),name="start_year",placeholder="Start Year..." required)
+		div(class='form-control')
+			div(class='control-wrapper')
+				input(id='isCurrentEmployment',class='control__input',type='checkbox',name='is_current_employment')
+				label Current
+		div(class="form-control")
+			label(class="control__label",for="end-month") End Month
+			div(class="control-wrapper")
+				select(id="end-month",class="control__input",name="end_month")
+					each month in ['January','February','March','April','May','June','July','August','September','October','November','December']
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="end-year") End Year
+			div(class="control-wrapper")
+				input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",placeholder="End Year...")
+		input(class="btn",type="submit")

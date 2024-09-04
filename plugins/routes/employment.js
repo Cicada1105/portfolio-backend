@@ -42,6 +42,44 @@ const routes = [
 		}
 	},
 	{
+		method: 'POST',
+		path: '/employment/create',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: async function(req,h) {
+			let client;
+			try {
+				client = await mongoClient.connect();
+				let db = client.db('portfolio_cms');
+
+				let { is_current_employment, ...submittedData } = req['payload'];
+				submittedData['start_year'] = parseInt(submittedData['start_year']);
+
+				if ( 'end_year' in submittedData ) {
+					submittedData['end_year'] = parseInt(submittedData['end_year']);
+				}
+
+				let result = await db.collection('employment').insertOne(submittedData);
+				let successParam = new URLSearchParams({
+					success: "Successfully created new employment"
+				});
+				return h.redirect(`/cms/employment?${successParam.toString()}`);	
+			} catch(e) {
+				console.log("Error creating employment record");
+				console.log(err);
+
+				let errParam = new URLSearchParams({
+					error: "Error creating employment record"
+				});
+
+				return h.redirect(`/cms/employment?${errParam.toString()}`);
+			} finally {
+				client.close();
+			}
+		}
+	},
+	{
 		method: "GET",
 		path: '/employment/edit/{id}',
 		options: {
