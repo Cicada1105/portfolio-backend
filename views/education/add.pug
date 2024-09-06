@@ -1,4 +1,51 @@
 extends ../layout/default.pug
 
 block page-content
+	script(src='/scripts/date-verification.js' defer)
+	script(src='/scripts/current-education-toggle.js' defer)
 	h1.text-center Add Education
+	p(class="error text-center")
+		strong
+	form(class="user-input-form",action="/cms/education/create",method="POST")
+		div(class="form-control")
+			label(class="control__label",for="institution") Institution
+			div(class="control-wrapper")
+				input(id="institution",class="control__input",type="text",name="institution",placedholder='ie. Lewis University...' required)
+				//- span(class="control__text") ie. Github, Instagram...
+		div(class="form-control")
+			label(class="control__label",for="degree-type") Degree Type
+			div(class="control-wrapper")
+				select(id="degree-type",class="control__input",name="degree_type")
+					each type in [ 'Undergraduate', 'Post Graduate Certificate', 'Masters', 'Doctorate' ]
+						option(value=type)= type
+		div(class="form-control")
+			label(class="control__label",for="degree") Degree
+			div(class="control-wrapper")
+				input(id="degree",class="control__input",type="text",name="degree",placeholder='ie. Bachelors of...' required)
+				//- span(class="control__text") https://www...
+		div(class="form-control")
+			label(class="control__label",for="start-month") Start Month
+			div(class='control-wrapper')
+				select(id="start-month",class="control__input",name="start_month")
+					each month in [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="start-year") Start Year
+			div(class='control-wrapper')
+				input(id="start-year",class="control__input",type="number",name="start_year" required)
+		div(class='form-control')
+			div(class='control-wrapper')
+				input(id='is-current-education',class='control__input',type='checkbox')
+			label(for='is-current-education') Current
+		div(class="form-control")
+			label(class="control__label",for="end-month") End Month
+			div(class='control-warpper')
+				select(id="end-month",class="control__input",name="end_month")
+					each month in [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="end-year") End Year
+			- let maxDate = new Date().getFullYear();
+			div(class='control-wrapper')
+				input(id="end-year",class="control__input",type="number",max=maxDate,name="end_year")
+		input(class="btn",type="submit")

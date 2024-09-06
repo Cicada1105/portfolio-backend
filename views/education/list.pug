@@ -8,7 +8,7 @@ block page-content
 	table.text-center.m-auto
 		thead
 			tr
-				th.w-8 University
+				th.w-8 Institution
 				th.w-8 Degree Type
 				th.w-8 Degree
 				th.w-8 Start Month
@@ -19,7 +19,7 @@ block page-content
 		tbody
 			each institution in education
 				tr
-					td= institution.name
+					td= institution.institution
 					td= institution.degree_type
 					td= institution.degree
 					td= institution.start_month
