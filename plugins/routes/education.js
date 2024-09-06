@@ -52,7 +52,7 @@ const routes = [
 				let client = await mongoClient.connect();
 				let db = client.db('portfolio_cms');
 
-				let { is_current_education, ...submittedData } = req['payload'];
+				let submittedData = req['payload'];
 
 				submittedData = {
 					...submittedData,

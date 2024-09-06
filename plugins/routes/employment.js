@@ -53,7 +53,7 @@ const routes = [
 				client = await mongoClient.connect();
 				let db = client.db('portfolio_cms');
 
-				let { is_current_employment, ...submittedData } = req['payload'];
+				let submittedData = req['payload'];
 				submittedData['start_year'] = parseInt(submittedData['start_year']);
 
 				if ( 'end_year' in submittedData ) {
