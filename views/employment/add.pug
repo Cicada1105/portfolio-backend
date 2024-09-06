@@ -1,8 +1,11 @@
 extends ../layout/default.pug
 
 block page-content
+	script(src='/scripts/date-verification.js' defer)
 	script(src='/scripts/current-employment-toggle.js' defer)
 	h1.text-center Add Employment
+	strong
+		p(class="error text-center")
 	form(class="user-input-form",action="/cms/employment/create",method="POST")
 		div(class="form-control")
 			label(class="control__label",for="title") Title
