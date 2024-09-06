@@ -2,13 +2,11 @@
   const isCurrentEducation = document.getElementById('is-current-education');
 
   const endMonthInput = document.getElementById('end-month');
-  const endMonthInputCont = endMonthInput.parentElement;
-  const endMonthInputCtrl = endMonthInputCont.parentElement;
+  const endMonthInputCtrl = endMonthInput.parentElement;
   const endMonthLabel = endMonthInputCtrl.getElementsByTagName('label')[0];
 
   const endYearInput = document.getElementById('end-year');
-  const endYearInputCont = endYearInput.parentElement;
-  const endYearInputCtrl = endYearInputCont.parentElement;
+  const endYearInputCtrl = endYearInput.parentElement;
   const endYearLabel = endYearInputCtrl.getElementsByTagName('label')[0]
 
   isCurrentEducation.addEventListener('change',() => {

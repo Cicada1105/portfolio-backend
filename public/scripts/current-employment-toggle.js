@@ -1,14 +1,11 @@
-let addForm = document.forms[1];
-let isCurrentEmploymentEl = addForm['is_current_employment'];
+let isCurrentEmploymentEl = document.getElementById('is-current-employment');
 
-let endMonthInput = addForm['end_month'];
-let endMonthInputCont = endMonthInput.parentElement;
-let endMonthInputCtrl = endMonthInputCont.parentElement;
+let endMonthInput = document.getElementById('end-month');
+let endMonthInputCtrl = endMonthInput.parentElement;
 let endMonthLabel = endMonthInputCtrl.getElementsByTagName('label')[0];
 
-let endYearInput = addForm['end_year'];
-let endYearInputCont = endYearInput.parentElement;
-let endYearInputCtrl = endYearInputCont.parentElement;
+let endYearInput = document.getElementById('end-year');
+let endYearInputCtrl = endYearInput.parentElement;
 let endYearLabel = endYearInputCtrl.getElementsByTagName('label')[0]
 
 isCurrentEmploymentEl.addEventListener('change',() => {
