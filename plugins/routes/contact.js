@@ -1,7 +1,7 @@
 'use strict';
 
 // Local 
-const { mongoClient } = require('../../utils/mongodb.js');
+const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
 const routes = [
 	{
@@ -70,10 +70,31 @@ const routes = [
 		options: {
 			auth: 'customAuth'
 		},
-		handler: function(req,h) {
+		handler: async function(req,h) {
 			let { id } = req.params;
-			console.log(`Deleting contact with id of ${id}`);
-			return h.redirect('/cms/contact');
+			let params;
+
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db('portfolio_cms');
+
+				let result = await db.collection('contact').findOneAndDelete({
+					_id: new ObjectId( id )
+				});
+
+				params = new URLSearchParams({
+					success: 'Successfully removed contact record'
+				});
+			} catch(err) {
+				console.log(`Error removing contact record with id: ${ id }`);
+				console.log(err);
+
+				params = new URLSearchParams({
+					err: 'Error removing contact record'
+				});
+			} finally {
+				return h.redirect(`/cms/contact?${params.toString()}`);
+			}
 		}
 	}
 ];
