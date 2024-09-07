@@ -3,6 +3,9 @@
 // Local 
 const { mongoClient } = require('../../utils/mongodb.js');
 
+const DB_NAME = 'portfolio_cms';
+const COLLECTION_NAME = 'projects';
+
 const routes = [
 	{
 		method: "GET",
@@ -16,9 +19,9 @@ const routes = [
 
 			try {
 				let client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				let db = client.db(DB_NAME);
 
-				let projects = await db.collection('projects').find({}).toArray();
+				let projects = await db.collection(COLLECTION_NAME).find({}).toArray();
 				
 				return h.view('projects/list', { projects, success, error });
 			} catch(err) {
@@ -48,7 +51,7 @@ const routes = [
 			
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
 				let submittedData = req['payload'];
 				let newProject = {
@@ -58,7 +61,7 @@ const routes = [
 					live_url: submittedData['live_url']
 				}
 
-				let result = await db.collection('projects').insertOne(newProject);
+				let result = await db.collection(COLLECTION_NAME).insertOne(newProject);
 
 				params = new URLSearchParams({
 					success: "Successfully created new project"

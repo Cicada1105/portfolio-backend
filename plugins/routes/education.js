@@ -3,6 +3,9 @@
 // Local 
 const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
+const DB_NAME = 'portfolio_cms';
+const COLLECTION_NAME = 'education';
+
 const routes = [
 	{
 		method: "GET",
@@ -16,9 +19,9 @@ const routes = [
 
 			try {
 				let client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				let db = client.db(DB_NAME);
 
-				let education = await db.collection('education').find({}).toArray();
+				let education = await db.collection(COLLECTION_NAME).find({}).toArray();
 
 				return h.view('education/list', { education, success, error });
 			} catch(err) {
@@ -52,7 +55,7 @@ const routes = [
 
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
 				let submittedData = req['payload'];
 
@@ -65,7 +68,7 @@ const routes = [
 					submittedData['end_year'] = parseInt(submittedData['end_year']);
 				}
 
-				let result = await db.collection('education').insertOne(submittedData);
+				let result = await db.collection(COLLECTION_NAME).insertOne(submittedData);
 				params = new URLSearchParams({
 					success: "Successfully created new institution"
 				});
@@ -105,9 +108,9 @@ const routes = [
 
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
-				let result = await db.collection('education').findOneAndDelete({
+				let result = await db.collection(COLLECTION_NAME).findOneAndDelete({
 					_id: new ObjectId( id )
 				});
 

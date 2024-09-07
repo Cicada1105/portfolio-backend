@@ -3,6 +3,9 @@
 // Local 
 const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
+const DB_NAME = 'portfolio_cms';
+const COLLECTION_NAME = 'employment';
+
 const routes = [
 	{
 		method: "GET",
@@ -16,9 +19,9 @@ const routes = [
 
 			try {
 				let client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				let db = client.db(DB_NAME);
 
-				let employment = await db.collection('employment').find({}).toArray();
+				let employment = await db.collection(COLLECTION_NAME).find({}).toArray();
 
 				return h.view('employment/list', { employment, success, error });
 			} catch(err) {
@@ -52,7 +55,7 @@ const routes = [
 
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
 				let submittedData = req['payload'];
 				submittedData['start_year'] = parseInt(submittedData['start_year']);
@@ -61,7 +64,7 @@ const routes = [
 					submittedData['end_year'] = parseInt(submittedData['end_year']);
 				}
 
-				let result = await db.collection('employment').insertOne(submittedData);
+				let result = await db.collection(COLLECTION_NAME).insertOne(submittedData);
 				params = new URLSearchParams({
 					success: "Successfully created new employment"
 				});
@@ -101,9 +104,9 @@ const routes = [
 
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
-				let result = await db.collection('employment').findOneAndDelete({
+				let result = await db.collection(COLLECTION_NAME).findOneAndDelete({
 					_id: new ObjectId( id )
 				});
 

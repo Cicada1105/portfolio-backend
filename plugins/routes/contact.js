@@ -3,6 +3,9 @@
 // Local 
 const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
+const DB_NAME = 'portfolio_cms';
+const COLLECTION_NAME = 'contact';
+
 const routes = [
 	{
 		method: "GET",
@@ -16,9 +19,9 @@ const routes = [
 
 			try {
 				let client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				let db = client.db(DB_NAME);
 
-				let contactMethods = await db.collection('contact').find({}).toArray();
+				let contactMethods = await db.collection(COLLECTION_NAME).find({}).toArray();
 
 				return h.view('contact/list', { contactMethods, success, error });
 			} catch(err) {
@@ -76,9 +79,9 @@ const routes = [
 
 			try {
 				const client = await mongoClient.connect();
-				const db = client.db('portfolio_cms');
+				const db = client.db(DB_NAME);
 
-				let result = await db.collection('contact').findOneAndDelete({
+				let result = await db.collection(COLLECTION_NAME).findOneAndDelete({
 					_id: new ObjectId( id )
 				});
 
