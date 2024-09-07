@@ -70,7 +70,7 @@ const routes = [
 				console.log(err);
 
 				let errParam = new URLSearchParams({
-					error: "Error creating employment record"
+					err: "Error creating employment record"
 				});
 
 				return h.redirect(`/cms/employment?${errParam.toString()}`);

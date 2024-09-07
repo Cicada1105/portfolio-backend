@@ -1,7 +1,7 @@
 'use strict';
 
 // Local 
-const { mongoClient } = require('../../utils/mongodb.js');
+const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
 const routes = [
 	{
@@ -65,7 +65,7 @@ const routes = [
 
 				let result = await db.collection('education').insertOne(submittedData);
 				let successParam = new URLSearchParams({
-					success: "Successfully created new employment"
+					success: "Successfully created new institution"
 				});
 				return h.redirect(`/cms/education?${successParam.toString()}`);	
 			} catch(e) {
@@ -73,7 +73,7 @@ const routes = [
 				console.log(err);
 
 				let errParam = new URLSearchParams({
-					error: "Error creating education record"
+					err: "Error creating education record"
 				});
 
 				return h.redirect(`/cms/education?${errParam.toString()}`);
@@ -98,10 +98,31 @@ const routes = [
 		options: {
 			auth: 'customAuth'
 		},
-		handler: function(req,h) {
+		handler: async function(req,h) {
 			let { id } = req.params;
-			console.log(`Deleting education with id of ${id}`);
-			return h.redirect('/cms/education');
+			let params;
+
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db('portfolio_cms');
+
+				let result = await db.collection('education').findOneAndDelete({
+					_id: new ObjectId( id )
+				});
+
+				params = new URLSearchParams({
+					success: "Successfully removed institution"
+				});
+			} catch(err) {
+				console.log(`Error removing education institution with id: ${ id }`)
+				console.log(err);
+
+				params = new URLSearchParams({
+					err: "Successfully removed institution"
+				});
+			} finally {
+				return h.redirect(`/cms/education?${params.toString()}`);
+			}
 		}
 	}
 ];
