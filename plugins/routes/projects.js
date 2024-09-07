@@ -44,10 +44,11 @@ const routes = [
 			auth: 'customAuth'
 		},
 		handler: async function(req,h) {
-			let client;
+			let params;
+			
 			try {
-				client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				const client = await mongoClient.connect();
+				const db = client.db('portfolio_cms');
 
 				let submittedData = req['payload'];
 				let newProject = {
@@ -59,20 +60,18 @@ const routes = [
 
 				let result = await db.collection('projects').insertOne(newProject);
 
-				let successParam = new URLSearchParams({
+				params = new URLSearchParams({
 					success: "Successfully created new project"
 				})
-				return h.redirect(`/cms/projects?${successParam.toString()}`);
 			} catch(err) {
 				console.log("Error creating project");
 				console.log(err);
 
-				let errParam = new URLSearchParams({
+				params = new URLSearchParams({
 					err: "Error creating project"
 				});
-				return h.redirect(`/cms/projects?${errParam.toString()}`);
 			} finally {
-				client.close();
+				return h.redirect(`/cms/projects?${params.toString()}`);
 			}
 		}
 	},

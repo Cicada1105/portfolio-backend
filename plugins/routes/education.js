@@ -48,9 +48,11 @@ const routes = [
 			auth: 'customAuth'
 		},
 		handler: async function(req,h) {
+			let params;
+
 			try {
-				let client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				const client = await mongoClient.connect();
+				const db = client.db('portfolio_cms');
 
 				let submittedData = req['payload'];
 
@@ -64,20 +66,19 @@ const routes = [
 				}
 
 				let result = await db.collection('education').insertOne(submittedData);
-				let successParam = new URLSearchParams({
+				params = new URLSearchParams({
 					success: "Successfully created new institution"
 				});
-				return h.redirect(`/cms/education?${successParam.toString()}`);	
-			} catch(e) {
+			} catch(err) {
 				console.log("Error creating education record");
 				console.log(err);
 
-				let errParam = new URLSearchParams({
+				params = new URLSearchParams({
 					err: "Error creating education record"
 				});
-
-				return h.redirect(`/cms/education?${errParam.toString()}`);
-			} 
+			} finally {
+				return h.redirect(`/cms/education?${params.toString()}`);	
+			}
 		}
 	},
 	{

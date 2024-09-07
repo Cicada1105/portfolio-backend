@@ -48,10 +48,11 @@ const routes = [
 			auth: 'customAuth'
 		},
 		handler: async function(req,h) {
-			let client;
+			let params;
+
 			try {
-				client = await mongoClient.connect();
-				let db = client.db('portfolio_cms');
+				const client = await mongoClient.connect();
+				const db = client.db('portfolio_cms');
 
 				let submittedData = req['payload'];
 				submittedData['start_year'] = parseInt(submittedData['start_year']);
@@ -61,21 +62,18 @@ const routes = [
 				}
 
 				let result = await db.collection('employment').insertOne(submittedData);
-				let successParam = new URLSearchParams({
+				params = new URLSearchParams({
 					success: "Successfully created new employment"
 				});
-				return h.redirect(`/cms/employment?${successParam.toString()}`);	
-			} catch(e) {
+			} catch(err) {
 				console.log("Error creating employment record");
 				console.log(err);
 
-				let errParam = new URLSearchParams({
+				params = new URLSearchParams({
 					err: "Error creating employment record"
 				});
-
-				return h.redirect(`/cms/employment?${errParam.toString()}`);
 			} finally {
-				client.close();
+				return h.redirect(`/cms/employment?${params.toString()}`);	
 			}
 		}
 	},
