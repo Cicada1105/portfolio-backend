@@ -134,19 +134,38 @@ const routes = [
 		},
 		handler: async function(req,h) {
 			let { id } = req.params;
-			let params;
+			let { image_id } = req.payload;
 
+			let params;
 			try {
 				const client = await mongoClient.connect();
 				const db = client.db(DB_NAME);
 
-				let result = await db.collection(COLLECTION_NAME).findOneAndDelete({
-					_id: new ObjectId( id )
-				});
+				let imageKitResult = await removeImage(image_id);
 
-				params = new URLSearchParams({
-					success: 'Successfully removed contact record'
-				});
+				if ( 'message' in imageKitResult ) {
+					if ( 'help' in imageKitResult ) {
+						console.log('Error removing image from ImageKit');
+						console.log(imageKitResult['message']);	
+						console.log(imageKitResult['help']);
+
+						params = new URLSearchParams({
+							err: 'Error removing contact record'
+						});
+					}
+					else {
+						console.log(imageKitResult['message']);	
+					}
+				}
+				else {
+					let result = await db.collection(COLLECTION_NAME).findOneAndDelete({
+						_id: new ObjectId( id )
+					});
+
+					params = new URLSearchParams({
+						success: 'Successfully removed contact record'
+					});	
+				}
 			} catch(err) {
 				console.log(`Error removing contact record with id: ${ id }`);
 				console.log(err);

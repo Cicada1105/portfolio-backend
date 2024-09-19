@@ -21,8 +21,14 @@ function uploadImage({ buffer, fileExtension }){
   return imageKit.upload(imageUploadOptions);
 }
 
-function removeImage(){
+function removeImage(imageId){
+  var imageKit = new ImageKit({
+      publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
+      privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
+      urlEndpoint : `https://ik.imagekit.io/${process.env.IMAGE_KIT_ID}/`
+  });
 
+  return imageKit.deleteFile(imageId);
 }
 
 module.exports = {

@@ -29,5 +29,6 @@ block page-content
 									a(href=`/cms/contact/edit/${method['_id']}`)
 										i.fa-regular.fa-pen-to-square
 									form(action=`/cms/contact/delete/${method['_id']}` method="POST")
+										input(type='hidden',name='image_id',value=method['platform']['icon'].id)
 										button
 											i.fa-regular.fa-trash-can
