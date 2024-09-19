@@ -9,17 +9,19 @@ block page-content
 		thead
 			tr
 				th.w-5 Platform
-				th.w-5 Name
-				th.w-5 Link
+				th.w-5 Handle
+				th.w-5 URL
 				th.w-5 Icon
 				th.w-5
 		tbody
 			each method in contactMethods
 				tr
 					td= method['platform'].name
-					td= method.name
-					td= method.link
-					td= method['platform'].icon
+					td= method.handle
+					td= method.url
+					td
+						if method['platform']['icon'].thumbnailUrl
+							img(src=method['platform']['icon'].thumbnailUrl, alt=`${method['platform'].name} icon` style="height: 3rlh")
 					td.controls
 						table.m-auto
 							tr

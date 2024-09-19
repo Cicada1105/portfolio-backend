@@ -2,7 +2,7 @@ include ../layout/default.pug
 
 block page-content
 	h1(class="text-center") Add
-	form(class="user-input-form",action="/cms/contact/create",method="POST")
+	form(class="user-input-form",action="/cms/contact/create",method="POST",enctype="multipart/form-data")
 		div(class="form-control")
 			label(class="control__label",for="platform") Platform
 			input(id="platform",class="control__input",type="text",name="platform",placeholder="ie. Github, Instagram...")
