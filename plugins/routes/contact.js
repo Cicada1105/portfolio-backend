@@ -1,9 +1,8 @@
 'use strict';
 
-const crypto = require('crypto');
-const ImageKit = require('imagekit');
 // Local 
 const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
+const { uploadImage, removeImage } = require('./utils');
 
 const DB_NAME = 'portfolio_cms';
 const COLLECTION_NAME = 'contact';
@@ -66,8 +65,6 @@ const routes = [
 				
 				let { platform, handle, url, icon: { _data, hapi: { filename } } } = req.payload;
 
-				let fileExtension = filename.split('.')[1];
-
 				let contactInfo = {
 					platform: {
 						name: platform
@@ -76,43 +73,35 @@ const routes = [
 					url
 				}
 
-				var imageKit = new ImageKit({
-				    publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
-				    privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
-				    urlEndpoint : `https://ik.imagekit.io/${process.env.IMAGE_KIT_ID}/`
+				let result = await uploadImage({ 
+					buffer: _data,
+					fileExtension: filename.split('.')[1]
 				});
 
-				const IMAGE_UPLOAD_OPTIONS = {
-					file: _data.toString('base64'),
-					fileName: `${crypto.randomUUID()}.${fileExtension}`
+				if ( 'help' in result ) {
+					console.log('Error uploading to ImageKit');
+					console.log(result['message']);
+					console.log(result['help']);
+
+					params = new URLSearchParams({
+						err: "Error creating contact record"
+					});
 				}
+				else {
+		    	let { fileId, url, thumbnailUrl } = result;
 
-				let callbackFunc = async function(err, result) {
-			    if(err) {
-			    	console.log("Error uplaoding to ImageKit");
-			    	console.log(err);
+		    	contactInfo['platform'].icon = {
+		    		id: fileId,
+		    		url,
+		    		thumbnailUrl
+		    	}
 
-						params = new URLSearchParams({
-							err: "Error creating contact record"
-						})
-			    }
-			    else {
-			    	let { fileId, url, thumbnailUrl } = result;
-			    	contactInfo['platform'].icon = {
-			    		id: fileId,
-			    		url,
-			    		thumbnailUrl
-			    	}
+			    let dbResult = await db.collection(COLLECTION_NAME).insertOne(contactInfo);
 
-				    let dbResult = await db.collection(COLLECTION_NAME).insertOne(contactInfo);
-
-						params = new URLSearchParams({
-							success: "Successfully created new contact record"
-						});
-			    }
+					params = new URLSearchParams({
+						success: "Successfully created new contact record"
+					});
 				}
-
-				imageKit.upload(IMAGE_UPLOAD_OPTIONS, callbackFunc);
 			} catch(err) {
 				console.log(`Error creating new contact: ${req['params'].name}`);
 				console.log(err);
