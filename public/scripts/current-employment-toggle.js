@@ -13,7 +13,6 @@
     let isCurrent = isCurrentEmploymentEl.checked;
     let currentColor = isCurrent ? 'light-dark(graytext, rgb(170, 170, 170))' : 'black'; 
     let currentBorderColor = isCurrent ? 'rgba(118, 118, 118, 0.3)' : 'black';
-    let show = isCurrent ? 'none' : 'flex';
     
     endMonthLabel.style.color = currentColor;
     endMonthInput.toggleAttribute('disabled');
