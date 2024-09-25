@@ -1,7 +1,7 @@
 'use strict';
 
 // Local 
-const { mongoClient } = require('../../utils/mongodb.js');
+const { mongoClient, ObjectId } = require('../../utils/mongodb.js');
 
 const DB_NAME = 'portfolio_cms';
 const COLLECTION_NAME = 'projects';
@@ -96,10 +96,31 @@ const routes = [
 		options: {
 			auth: 'customAuth'
 		},
-		handler: function(req,h) {
+		handler: async function(req,h) {
 			let { id } = req.params;
-			console.log(`Deleting project with id of ${id}`);
-			return h.redirect('/cms/projects');
+
+			let params;
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db(DB_NAME);
+
+				let { value: { title } } = await db.collection(COLLECTION_NAME).findOneAndDelete({
+					_id: new ObjectId(id)
+				});
+
+				params = new URLSearchParams({
+					success: `Successfully deleted project "${title}"`
+				});
+			} catch(err) {
+				console.log(`Error deleting project with id: ${id}`);
+				console.log(err);
+
+				params = new URLSearchParams({
+					err: "Error deleting project"
+				});
+			} finally {
+				return h.redirect(`/cms/projects?${params.toString()}`);
+			}
 		}
 	}
 ];
