@@ -84,10 +84,70 @@ const routes = [
 		options: {
 			auth: 'customAuth'
 		},
-		handler: function(req,h) {
+		handler: async function(req,h) {
 			let { id } = req.params;
 			
-			return h.view('projects/edit', { id });
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db(DB_NAME);
+
+				let result = await db.collection(COLLECTION_NAME).findOne({
+					_id: new ObjectId(id)
+				});
+
+				return h.view('projects/edit',result);
+			} catch(err) {
+				console.log(`Error retrieving details to edit project with id: ${id}`);
+				console.log(err);
+
+				let params = new URLSearchParams({
+					err: "Error retrieving data to be editted"
+				});
+
+				return h.redirect(`/cms/projects?${params.toString()}`);
+			}
+		}
+	},
+	{
+		method: "POST",
+		path: '/projects/update',
+		options: {
+			auth: 'customAuth'
+		}, 
+		handler: async function(req,h) {
+			let { id, title, description, github_url, live_url } = req['payload'];
+
+			let params;
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db(DB_NAME);
+
+				let result = await db.collection(COLLECTION_NAME).findOneAndUpdate({
+					_id: new ObjectId(id)
+				},{
+					$set: {
+						title,
+						description,
+						github_url,
+						live_url	
+					}
+				});
+
+				console.log(result);
+
+				params = new URLSearchParams({
+					success: `Successfully updated project "${title}"!`
+				});
+			} catch(err) {
+				console.log(`Error updating project with id: ${id}`);
+				console.log(err);
+
+				params = new URLSearchParams({
+					err: "Error updating project"
+				});
+			} finally {
+				return h.redirect(`/cms/projects?${params.toString()}`);
+			}
 		}
 	},
 	{

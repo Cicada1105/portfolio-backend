@@ -2,4 +2,18 @@ extends ../layout/default.pug
 
 block page-content
 	h1.text-center Edit
-	p.text-center Editing project with id of #{id}
+	form(class="user-input-form",action="/cms/projects/update",method="POST")
+		input(type='hidden',name='id',value=_id)
+		div(class="form-control")
+			label(class="control__label",for="title") Title
+			input(id="title",class="control__input",type="text",name="title",value=title,placeholder="Name of project" required)
+		div(class="form-control")
+			label(class="control__label",for="description") Description
+			input(id="description",class="control__input",type="text",name="description",value=description,placeholder="Description..." required)
+		div(class="form-control")
+			label(class="control__label",for="github-url") Github URL
+			input(id="github-url",class="control__input",type="url",name="github_url",value=github_url,placeholder="https://www..." required)
+		div(class="form-control")
+			label(class="control__label",for="live-url") Live URL
+			input(id="live-url",class="control__input",type="url",name="live_url",value=live_url,placeholder="https://www...")
+		input(class="btn",type="submit")
