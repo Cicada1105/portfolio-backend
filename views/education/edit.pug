@@ -1,5 +1,58 @@
 extends ../layout/default.pug
 
 block page-content
-	h1.text-center Edit
-	p.text-center Editing education with id of #{id}
+	script(src='/scripts/date-verification.js' defer)
+	script(src='/scripts/current-education-toggle.js' defer)
+	- const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December']
+	h1.text-center Edit Education
+	strong
+		p(class="error text-center")
+	form(class="user-input-form",action="/cms/education/update",method="POST")
+		input(type='hidden',name='id',value=_id)
+		div(class="form-control")
+			label(class="control__label",for="institution") Institution
+			input(id="institution",class="control__input",type="text",name="institution",value=institution,placedholder='ie. Lewis University...' required)
+			//- span(class="control__text") ie. Github, Instagram...
+		div(class="form-control")
+			label(class="control__label",for="degree-type") Degree Type
+			select(id="degree-type",class="control__input",name="degree_type" required)
+				-const DEGREE_TYPES = [ 'Undergraduate', 'Post Graduate Certificate', 'Masters', 'Doctorate' ];
+				-const degreeTypeIndex = DEGREE_TYPES.findIndex(d => d === degree_type);
+				each type, index in DEGREE_TYPES
+					if (index === degreeTypeIndex)
+						option(value=type selected)= type
+					else
+						option(value=type)= type
+		div(class="form-control")
+			label(class="control__label",for="degree") Degree
+			input(id="degree",class="control__input",type="text",name="degree",value=degree,placeholder='ie. Bachelors of...' required)
+			//- span(class="control__text") https://www...
+		div(class="form-control")
+			label(class="control__label",for="start-month") Start Month
+			-let startMonthIndex = MONTHS.findIndex(m => m === start_month);
+			select(id="start-month",class="control__input",name="start_month")
+				each month, index in MONTHS
+					if (index === startMonthIndex)
+						option(value=month selected)= month
+					else
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="start-year") Start Year
+			input(id="start-year",class="control__input",type="number",name="start_year",value=start_year required)
+		div(class='form-control')
+			input(id='is-current-education',class='control__input',type='checkbox')
+			label(for='is-current-education') Current
+		div(class="form-control")
+			label(class="control__label",for="end-month") End Month
+			-let endMonthIndex = MONTHS.findIndex(m => m === end_month)
+			select(id="end-month",class="control__input",name="end_month")
+				each month, index in MONTHS
+					if (index === endMonthIndex)
+						option(value=month selected)= month
+					else
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="end-year") End Year
+			- let maxDate = new Date().getFullYear();
+			input(id="end-year",class="control__input",type="number",max=maxDate,name="end_year",value=end_year)
+		input(class="btn",type="submit")

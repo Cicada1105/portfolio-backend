@@ -90,10 +90,87 @@ const routes = [
 		options: {
 			auth: 'customAuth'
 		},
-		handler: function(req,h) {
+		handler: async function(req,h) {
 			let { id } = req.params;
 			
-			return h.view('education/edit', { id });
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db(DB_NAME);
+
+				let result = await db.collection(COLLECTION_NAME).findOne({
+					_id: new ObjectId(id)
+				});
+
+				return h.view('education/edit',result);
+			} catch(err) {
+				console.log(`Error retrieving education record to edit with id: ${id}`);
+				console.log(err);
+
+				let params = new URLSearchParams({
+					err: 'Error retrieving education data to udpate'
+				});
+
+				return h.rediret(`/cms/education?${params.toString()}`);
+			}
+		}
+	},
+	{
+		method: "POST",
+		path: '/education/update',
+		options: {
+			auth: 'customAuth'
+		},
+		handler: async function(req,h) {
+			let { id, institution, degree_type, start_month, start_year } = req['payload'];
+			let params;
+
+			try {
+				const client = await mongoClient.connect();
+				const db = client.db(DB_NAME);
+
+				let submittedData = {
+					institution,
+					degree_type,
+					start_month,
+					start_year: parseInt(start_year)
+				};
+
+				if ( 'end_month' in req['payload'] ) {
+					let { end_month, end_year } = req['payload'];
+
+					submittedData = {
+						...submittedData,
+						end_month,
+						end_year: parseInt(end_year)
+					}
+				}
+				else {
+					submittedData = {
+						...submittedData,
+						end_month: null,
+						end_year: null
+					}
+				}
+
+				const result = await db.collection(COLLECTION_NAME).findOneAndUpdate({
+					_id: new ObjectId(id)
+				}, {
+					$set: submittedData
+				});
+
+				params = new URLSearchParams({
+					success: `Successfully updated education record "${institution}"`
+				});
+			} catch(err) {
+				console.log(`Error updating education record with id: ${id}`);
+				console.log(err);
+
+				params = new URLSearchParams({
+					err: "Error updating education data."
+				});
+			} finally {
+				return h.redirect(`/cms/education?${params.toString()}`);
+			}
 		}
 	},
 	{
