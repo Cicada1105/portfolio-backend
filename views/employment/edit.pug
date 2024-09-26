@@ -1,5 +1,48 @@
 extends ../layout/default.pug
 
 block page-content
-	h1.text-center Edit
-	p.text-center Editing employment with id of #{id}
+	script(src='/scripts/date-verification.js' defer)
+	script(src='/scripts/current-employment-toggle.js' defer)
+	- const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December']
+	h1.text-center Edit Employment
+	strong
+		p(class="error text-center")
+	form(class="user-input-form",action="/cms/employment/update",method="POST")
+		input(type='hidden',name='id',value=_id)
+		div(class="form-control")
+			label(class="control__label",for="title") Title
+			input(id="title",class="control__input",type="text",name="title",value=title,placeholder="Job title..." required)
+		div(class="form-control")
+			label(class="control__label",for="employer") Employer
+			input(id="employer",class="control__input",type="text",name="employer",value=employer,placeholder="Employer..." required)
+		div(class="form-control")
+			label(class="control__label",for="description") Description
+			input(id="description",class="control__input",type="text",name="description",value=description,placeholder="Description..." required)
+		div(class="form-control")
+			label(class="control__label",for="start-month") Start Month
+			- let startMonthIndex = MONTHS.findIndex(m => m === start_month)
+			select(id="start-month",class="control__input",name="start_month" required)
+				each month, index in MONTHS
+					if ( index == startMonthIndex )
+						option(value=month selected)= month
+					else
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="start-year") Start Year
+			input(id="start-year",class="control__input",type="number",max=(new Date().getFullYear()),name="start_year",value=start_year,placeholder="Start Year..." required)
+		div(class='form-control')
+			input(id='is-current-employment',class='control__input',type='checkbox')
+			label(for='is-current-employment') Current
+		div(class="form-control")
+			label(class="control__label",for="end-month") End Month
+			- let endMonthIndex = MONTHS.findIndex(m => m === end_month);
+			select(id="end-month",class="control__input",name="end_month")
+				each month, index in MONTHS
+					if (index === endMonthIndex)
+						option(value=month selected)= month
+					else
+						option(value=month)= month
+		div(class="form-control")
+			label(class="control__label",for="end-year") End Year
+			input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",value=end_year,placeholder="End Year...")
+		input(class="btn",type="submit")
