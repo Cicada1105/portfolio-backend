@@ -36,7 +36,7 @@ block page-content
 		div(class="form-control")
 			label(class="control__label",for="end-month") End Month
 			- let endMonthIndex = MONTHS.findIndex(m => m === end_month);
-			select(id="end-month",class="control__input",name="end_month")
+			select(id="end-month",class="control__input",name="end_month" required)
 				each month, index in MONTHS
 					if (index === endMonthIndex)
 						option(value=month selected)= month
@@ -44,5 +44,5 @@ block page-content
 						option(value=month)= month
 		div(class="form-control")
 			label(class="control__label",for="end-year") End Year
-			input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",value=end_year,placeholder="End Year...")
+			input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",value=end_year,placeholder="End Year..." required)
 		input(class="btn",type="submit")

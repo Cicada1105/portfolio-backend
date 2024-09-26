@@ -29,10 +29,10 @@ block page-content
 			label(for='is-current-employment') Current
 		div(class="form-control")
 			label(class="control__label",for="end-month") End Month
-			select(id="end-month",class="control__input",name="end_month")
+			select(id="end-month",class="control__input",name="end_month" required)
 				each month in ['January','February','March','April','May','June','July','August','September','October','November','December']
 					option(value=month)= month
 		div(class="form-control")
 			label(class="control__label",for="end-year") End Year
-			input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",placeholder="End Year...")
+			input(id="end-year",class="control__input",type="number",max=(new Date().getFullYear()),name="end_year",placeholder="End Year..." required)
 		input(class="btn",type="submit")
