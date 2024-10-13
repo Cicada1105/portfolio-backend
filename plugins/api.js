@@ -16,13 +16,14 @@ const API_PLUGIN = {
 							const client = await mongoClient.connect();
 							const db = client.db(DB_NAME);
 
-							const educationRecords = await db.collection('education').find({}).project({_id:0}).toArray();
+							const educationRecords = await db.collection('education').find({}).sort({ start_year: -1, end_year: -1 }).project({_id:0}).toArray();
 							const jsonData = JSON.stringify(educationRecords);
 
 							const resp = h.response(jsonData);
 							resp.code(200);
 							resp.type("application/json");
 							resp.bytes(Buffer.byteLength(jsonData,"utf8"));
+							// resp.header('Access-Control-Allow-Origin','*');
 
 							return resp;
 						} catch(e) {
@@ -50,13 +51,14 @@ const API_PLUGIN = {
 							const client = await mongoClient.connect();
 							const db = client.db(DB_NAME);
 
-							const employmentRecords = await db.collection('employment').find({}).project({_id:0}).toArray();
+							const employmentRecords = await db.collection('employment').find({}).sort({ start_year: -1, end_year: -1 }).project({_id:0}).toArray();
 							const jsonData = JSON.stringify(employmentRecords);
 
 							const resp = h.response(jsonData);
 							resp.code(200);
 							resp.type('application/json');
 							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+							// resp.header('Access-Control-Allow-Origin','*');
 
 							return resp; 
 						} catch(e) {
@@ -84,13 +86,14 @@ const API_PLUGIN = {
 							const client = await mongoClient.connect();
 							const db = client.db(DB_NAME);
 
-							const projectRecords = await db.collection('projects').find({}).project({_id:0}).toArray();
+							const projectRecords = await db.collection('projects').find({}).project({_id:0}).sort({ start_year: 1 }).toArray();
 							const jsonData = JSON.stringify(projectRecords);
 
 							const resp = h.response(jsonData);
 							resp.code(200);
 							resp.type('application/json');
 							resp.bytes(Buffer.byteLength(jsonData));
+							// resp.header('Access-Control-Allow-Origin','*');
 
 							return resp;
 						} catch(e) {
@@ -125,6 +128,7 @@ const API_PLUGIN = {
 							resp.code(200);
 							resp.type('application/json');
 							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+							// resp.header('Access-Control-Allow-Origin','*');
 
 							return resp;
 						} catch(e) {
