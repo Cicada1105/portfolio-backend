@@ -1,4 +1,7 @@
 'use strict';
+const { mongoClient } = require('../utils/mongodb');
+
+const DB_NAME = 'portfolio_cms';
 
 const API_PLUGIN = {
 	name: "apiPlugin",
@@ -8,52 +11,137 @@ const API_PLUGIN = {
 				{
 					method: "GET",
 					path: "/education",
-					handler: function(req, h) {
-						/*
-							Todo:
-							Query database for list of education
-						*/
-						const jsonData = JSON.stringify({ name: "Lewis University", from: "August 2017", to: "December 2019" });
-						const resp = h.response(jsonData);
-						resp.code(200);
-						resp.type("application/json");
-						resp.bytes(Buffer.byteLength(jsonData,"utf8"));
+					handler: async function(req, h) {
+						try {
+							const client = await mongoClient.connect();
+							const db = client.db(DB_NAME);
 
-						return resp;
+							const educationRecords = await db.collection('education').find({}).project({_id:0}).toArray();
+							const jsonData = JSON.stringify(educationRecords);
+
+							const resp = h.response(jsonData);
+							resp.code(200);
+							resp.type("application/json");
+							resp.bytes(Buffer.byteLength(jsonData,"utf8"));
+
+							return resp;
+						} catch(e) {
+							console.log('Error retrieving education records.');
+							console.log(e);
+
+							const jsonData = JSON.stringify({
+								message: 'Error retrieving education records'
+							});
+							const resp = h.response(jsonData);
+
+							resp.code(500);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+
+							return resp;
+						}
 					}
 				},
 				{
 					method: "GET",
 					path: "/employment",
-					handler: function(req,h) {
-						/*
-							Todo:
-							Query database for list of previous aemployment
-						*/
-						const jsonData = JSON.stringify({ name: "CarlColvinArts", from: "January 2020", to: "December 2021" });
-						const resp = h.response(jsonData);
-						resp.code(200);
-						resp.type("application/json");
-						resp.bytes(Buffer.byteLength(jsonData,"utf8"));
+					handler: async function(req,h) {
+						try {
+							const client = await mongoClient.connect();
+							const db = client.db(DB_NAME);
 
-						return resp;
+							const employmentRecords = await db.collection('employment').find({}).project({_id:0}).toArray();
+							const jsonData = JSON.stringify(employmentRecords);
+
+							const resp = h.response(jsonData);
+							resp.code(200);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+
+							return resp; 
+						} catch(e) {
+							console.log('Error retrieving employment records.');
+							console.log(e);
+
+							const jsonData = JSON.stringify({
+								message: 'Error retrieving employment records.'
+							});
+							const resp = h.response(jsonData);
+
+							resp.code(500);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+
+							return resp;
+						}
 					}
 				},
 				{
 					method: "GET",
 					path: "/projects",
-					handler: function(req,h) {
-						/*
-							Todo:
-							Query database for list of previous projects
-						*/
-						const jsonData = JSON.stringify({ name: "Inventory Manager", url:"http://localhost:3000.com" });
-						const resp = h.response(jsonData);
-						resp.code(200);
-						resp.type("application/json");
-						resp.bytes(Buffer.byteLength(jsonData,"utf8"));
+					handler: async function(req,h) {
+						try {
+							const client = await mongoClient.connect();
+							const db = client.db(DB_NAME);
 
-						return resp;
+							const projectRecords = await db.collection('projects').find({}).project({_id:0}).toArray();
+							const jsonData = JSON.stringify(projectRecords);
+
+							const resp = h.response(jsonData);
+							resp.code(200);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData));
+
+							return resp;
+						} catch(e) {
+							console.log('Error retrieving project records.');
+							console.log(e);
+
+							const jsonData = JSON.stringify({
+								message: 'Error retrieving project records.'
+							});
+
+							const resp = h.response(jsonData);
+							resp.code(500);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData));
+
+							return resp;
+						}
+					}
+				},
+				{
+					method: 'GET',
+					path: '/contact',
+					handler: async function(req,h) {
+						try {
+							const client = await mongoClient.connect();
+							const db = client.db(DB_NAME);
+
+							const contactRecords = await db.collection('contact').find({}).project({_id:0,'platform.icon.id':0}).toArray();
+							const jsonData = JSON.stringify(contactRecords);
+
+							const resp = h.response(jsonData);
+							resp.code(200);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData,'utf8'));
+
+							return resp;
+						} catch(e) {
+							console.log('Error retrieving contact records.');
+							console.log(e);
+
+							const jsonData = JSON.stringify({
+								message: 'Error retrieving contact records.'
+							});
+
+							const resp = h.response(jsonData);
+							resp.code(500);
+							resp.type('application/json');
+							resp.bytes(Buffer.byteLength(jsonData));
+
+							return resp;
+						}
 					}
 				}
 			]);
